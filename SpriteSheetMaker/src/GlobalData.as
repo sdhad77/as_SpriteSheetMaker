@@ -18,6 +18,7 @@ package
 		public static const FILENAME_EXTENSION_BMP:String = ".bmp";
 		
 		public static var globalStage:Stage;
+		public static var imgVector:Vector.<Image> = new Vector.<Image>();
 		
 		/**
 		 * @param stage : main클래스에서 받아온 stage

@@ -11,7 +11,6 @@ package
 	public class SpriteSheetMaker extends Sprite 
 	{ 
 		public static var globalData:GlobalData;
-		private var imgVector:Vector.<Image> = new Vector.<Image>();
 		private var _loadImage:LoadImage = new LoadImage();
 		
 		/**
