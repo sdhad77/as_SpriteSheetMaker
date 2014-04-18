@@ -12,7 +12,7 @@ package
 	 */
 	public class LoadImage
 	{
-		private var _loadedArray:Array = new Array();
+		private var _loadedImg:Image;
 		private var _pathArray:Array = new Array();
 		private var _loader:Loader = new Loader();
 		private var _imgLoadIdx:int = 0;
@@ -79,13 +79,15 @@ package
 		 */		
 		private function loaderCompleteHandler(e:Event):void 
 		{		
-			_loadedArray.push(e.target.content);
+			_loadedImg = new Image;
+			_loadedImg._img = e.target.content;
+			GlobalData.imgVector.push(_loadedImg);
 			
 			if(_imgLoadIdx == _pathArray.length-1)
 			{    
-				for(var i:uint = 0; i < _loadedArray.length; i++){
-					if(i != 0) _loadedArray[i].y = _loadedArray[i-1].height + _loadedArray[i-1].y;
-					GlobalData.globalStage.addChild(_loadedArray[i]);
+				for(var i:uint = 0; i < GlobalData.imgVector.length; i++){
+					if(i != 0) GlobalData.imgVector[i]._img.y = GlobalData.imgVector[i-1]._img.height + GlobalData.imgVector[i-1]._img.y;
+					GlobalData.globalStage.addChild(GlobalData.imgVector[i]._img);trace(GlobalData.imgVector[i]._img.name);
 				}    
 				clearListeners();
 			}
