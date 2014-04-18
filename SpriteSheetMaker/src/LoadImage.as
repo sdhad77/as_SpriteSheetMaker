@@ -56,11 +56,11 @@ package
 					_pathArray.push(new URLRequest(getfiles[i].url))
 					
 				}
-				else if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_BMP) == (getfiles[i].url.length-4))
+		/*		else if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_BMP) == (getfiles[i].url.length-4))
 				{
 					_pathArray.push(new URLRequest(getfiles[i].url))
 				}
-			}
+		*/	}
 		}
 		
 		/**
