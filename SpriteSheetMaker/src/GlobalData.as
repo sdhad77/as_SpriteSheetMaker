@@ -20,6 +20,8 @@ package
 		public static const SPRITE_SHEET_MAX_WIDTH:int = 1024;
 		public static const SPRITE_SHEET_MAX_HEIGHT:int = 1024;
 		
+		public static const IMAGE_BORDERLINE:int = 1;
+		
 		public static var globalStage:Stage;
 		public static var imgVector:Vector.<Image> = new Vector.<Image>();
 		public static var imgVectorIdx:int = 0;
@@ -35,7 +37,7 @@ package
 			globalStage = stage;
 			
 			//sprite sheet를 만들기 위한 트리의 루트.
-			packingTreeRoot.rect = new Rect(0,0,SPRITE_SHEET_MAX_WIDTH,SPRITE_SHEET_MAX_HEIGHT);
+			packingTreeRoot.rect = new Rect(IMAGE_BORDERLINE,IMAGE_BORDERLINE,SPRITE_SHEET_MAX_WIDTH,SPRITE_SHEET_MAX_HEIGHT);
 			
 			setting();
 		}

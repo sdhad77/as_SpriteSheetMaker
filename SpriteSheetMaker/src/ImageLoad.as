@@ -149,6 +149,8 @@ package
 			if(_imgLoadIdxBmp == _pathArrayBmp.length-1)
 			{
 				clearListeners();
+				
+				
 				GlobalData.imagePacking.imgPacking();
 			}
 				

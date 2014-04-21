@@ -15,7 +15,9 @@ package
 		public function imgPacking():void
 		{
 			//Sheet에 추가할 이미지의 width,height 세팅
-			_rect = new Rect(0,0,GlobalData.imgVector[GlobalData.imgVectorIdx]._img.width,GlobalData.imgVector[GlobalData.imgVectorIdx]._img.height);         
+			_rect = new Rect(0,0,
+				GlobalData.imgVector[GlobalData.imgVectorIdx]._img.width + GlobalData.IMAGE_BORDERLINE,
+				GlobalData.imgVector[GlobalData.imgVectorIdx]._img.height + GlobalData.IMAGE_BORDERLINE);         
 			
 			//트리 탐색과정
 			_node = GlobalData.packingTreeRoot.Insert_Rect(_rect);   
