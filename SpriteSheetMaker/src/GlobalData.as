@@ -22,8 +22,9 @@ package
 		
 		public static var globalStage:Stage;
 		public static var imgVector:Vector.<Image> = new Vector.<Image>();
-		public static var imgVectorIdx:int;
-		public static var packingTreeRoot:Node;
+		public static var imgVectorIdx:int = 0;
+		public static var packingTreeRoot:Node = new Node;
+		public static var imagePacking:ImagePacking = new ImagePacking;
 		
 		/**
 		 * @param stage : main클래스에서 받아온 stage
