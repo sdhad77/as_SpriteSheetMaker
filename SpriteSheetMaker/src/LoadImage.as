@@ -87,7 +87,7 @@ package
 			{    
 				for(var i:uint = 0; i < GlobalData.imgVector.length; i++){
 					if(i != 0) GlobalData.imgVector[i]._img.y = GlobalData.imgVector[i-1]._img.height + GlobalData.imgVector[i-1]._img.y;
-					GlobalData.globalStage.addChild(GlobalData.imgVector[i]._img);trace(GlobalData.imgVector[i]._img.name);
+					GlobalData.globalStage.addChild(GlobalData.imgVector[i]._img);
 				}    
 				clearListeners();
 			}
