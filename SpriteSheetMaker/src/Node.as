@@ -17,13 +17,13 @@ package
 			
 			if(_filled) return null;
 			
+			if(rc.isTooBig(this._rect)) return null;
+			
 			if(rc.isSameSize(this._rect))
 			{
 				_filled = true;
 				return this;
 			}
-			
-			if(rc.isTooBig(this._rect)) return null;
 			
 			_left = new Node();
 			_right = new Node();
