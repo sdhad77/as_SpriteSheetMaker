@@ -2,10 +2,10 @@ package
 {
 	public class Node
 	{
-		private var left:Node;
-		private var right:Node;
-		private var rect:Rect;
-		private var filled:Boolean;
+		private var _left:Node;
+		private var _right:Node;
+		private var _rect:Rect;
+		private var _filled:Boolean;
 	
 		public function Node()
 		{
@@ -13,37 +13,46 @@ package
 		
 		public function Insert_Rect(rc:Rect):Node
 		{
-			if(this.left != null) return this.left.Insert_Rect(rc) || this.right.Insert_Rect(rc);
+			if(this._left != null) return this._left.Insert_Rect(rc) || this._right.Insert_Rect(rc);
 			
-			if(filled) return null;
+			if(_filled) return null;
 			
-			if(rc.isSameSize(this.rect))
+			if(rc.isSameSize(this._rect))
 			{
-				filled = true;
+				_filled = true;
 				return this;
 			}
 			
-			if(rc.isTooBig(this.rect)) return null;
+			if(rc.isTooBig(this._rect)) return null;
 			
-			left = new Node();
-			right = new Node();
+			_left = new Node();
+			_right = new Node();
 			
-			var dw:int = this.rect.width - rc.width;
-			var dh:int = this.rect.height - rc.height;       
+			var dw:int = this._rect.width - rc.width;
+			var dh:int = this._rect.height - rc.height;       
 	
 			if(dw > dh)
 			{
-				this.left.rect = new Rect(this.rect.x, this.rect.y, rc.width, this.rect.height);
-				this.right.rect = new Rect(this.rect.x + rc.width, this.rect.y,dw, this.rect.height);
+				this._left._rect = new Rect(this._rect.x, this._rect.y, rc.width, this._rect.height);
+				this._right._rect = new Rect(this._rect.x + rc.width, this._rect.y,dw, this._rect.height);
 			}
 			
 			else 
 			{
-				this.left.rect = new Rect(this.rect.x, this.rect.y, this.rect.width, rc.height);
-				this.right.rect = new Rect(this.rect.x, this.rect.y + rc.height, this.rect.width, dh);
+				this._left._rect = new Rect(this._rect.x, this._rect.y, this._rect.width, rc.height);
+				this._right._rect = new Rect(this._rect.x, this._rect.y + rc.height, this._rect.width, dh);
 			}        
 			
-			return this.left.Insert_Rect(rc); 
+			return this._left.Insert_Rect(rc); 
 		}
+		
+		public function get filled():Boolean            {   return _filled;     }
+		public function set filled(value:Boolean):void  {   _filled = value;    }
+		public function get rect():Rect                 {   return _rect;       }
+		public function set rect(value:Rect):void       {   _rect = value;      }
+		public function get right():Node                {   return _right;      }
+		public function set right(value:Node):void      {   _right = value;     }
+		public function get left():Node                 {   return _left;       }
+		public function set left(value:Node):void       {   _left = value;      }
 	}
 }
