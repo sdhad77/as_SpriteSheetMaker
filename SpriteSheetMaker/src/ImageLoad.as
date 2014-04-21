@@ -54,7 +54,7 @@ package
 		 */		
 		private function imgPathSearch():void
 		{
-			var desktop:File = File.applicationDirectory.resolvePath("resource/in");
+			var desktop:File = File.applicationDirectory.resolvePath(GlobalData.PATH_IN_FILE);
 			var getfiles:Array = desktop.getDirectoryListing();
 			
 			for (var i:int = 0; i < getfiles.length; i++) 
@@ -143,15 +143,14 @@ package
 			var decoder:BMPDecoder = new BMPDecoder();
 			var bd:BitmapData = decoder.decode( loader.data );
 			_loadedImg = new Image;
-			_loadedImg._img = new Bitmap(bd,"auto",true);
+			_loadedImg._img = new Bitmap(bd,GlobalData.BITMAP_PIXEL_SNAPPING_AUTO,true);
 			GlobalData.imgVector.push(_loadedImg);
 			
 			if(_imgLoadIdxBmp == _pathArrayBmp.length-1)
 			{
 				clearListeners();
-				
-				
 				GlobalData.imagePacking.imgPacking();
+				GlobalData.spriteSheetPrint.print();
 			}
 				
 			else
