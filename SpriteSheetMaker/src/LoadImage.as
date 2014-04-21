@@ -84,12 +84,9 @@ package
 			GlobalData.imgVector.push(_loadedImg);
 			
 			if(_imgLoadIdx == _pathArray.length-1)
-			{    
-				for(var i:uint = 0; i < GlobalData.imgVector.length; i++){
-					if(i != 0) GlobalData.imgVector[i]._img.y = GlobalData.imgVector[i-1]._img.height + GlobalData.imgVector[i-1]._img.y;
-					GlobalData.globalStage.addChild(GlobalData.imgVector[i]._img);
-				}    
+			{     
 				clearListeners();
+				GlobalData.imagePacking.imgPacking();
 			}
 				
 			else
