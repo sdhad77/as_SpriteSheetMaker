@@ -1,0 +1,34 @@
+package
+{
+	import flash.geom.Rectangle;
+	
+	public class Rect extends Rectangle
+	{	
+		public function Rect(x:int, y:int, width:int, height:int)
+		{
+			super(x,y,width,height);
+		}
+		
+		/**
+		 * @param rc 비교할 Rect
+		 * @return 두 사각형의 크기가 같으면 true
+		 * @brief width와 height를 이용하여 두 사각형의 크기를 비교하고 같을 경우 true 반환
+		 */
+		public function isSameSize(rc:Rect):Boolean
+		{
+			if((rc.width == width) && (rc.height == height)) return true;
+			else return false;
+		}
+		
+		/**
+		 * @param rc 비교할 Rect
+		 * @return 호출된(this)의 크기가 더 작으면 true
+		 * @brief width와 height를 이용하여 두 사각형의 크기를 비교하고, this의 사각형이 더 작을 경우 true 반환
+		 */
+		public function isSmallSize(rc:Rect):Boolean
+		{
+			if((rc.width >= width) && (rc.height >= height)) return true;
+			else return false;
+		}
+	}
+}
