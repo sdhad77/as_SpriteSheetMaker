@@ -17,8 +17,12 @@ package
 		public static const FILENAME_EXTENSION_PNG:String = ".png";
 		public static const FILENAME_EXTENSION_BMP:String = ".bmp";
 		
+		public static const SPRITE_SHEET_MAX_WIDTH:int = 1024;
+		public static const SPRITE_SHEET_MAX_HEIGHT:int = 1024;
+		
 		public static var globalStage:Stage;
 		public static var imgVector:Vector.<Image> = new Vector.<Image>();
+		public static var imgVectorIdx:int;
 		public static var packingTreeRoot:Node;
 		
 		/**
@@ -26,9 +30,16 @@ package
 		 * @brief stage를 전역변수에 넣고, setting() 함수를 통해 환경설정을 함.
 		 */
 		public function GlobalData(stage)
-		{
+		{	//stage를 전역으로.
 			globalStage = stage;
+			
+			//sprite sheet를 만들기 위한 트리의 루트.
 			packingTreeRoot = new Node;
+			packingTreeRoot.rect = new Rect(0,0,SPRITE_SHEET_MAX_WIDTH,SPRITE_SHEET_MAX_HEIGHT);
+			
+			//이미지 저장 벡터의 인덱스
+			imgVectorIdx = 0;
+			
 			setting();
 		}
 		
