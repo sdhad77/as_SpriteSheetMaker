@@ -1,9 +1,14 @@
 package
 {
+	import com.voidelement.images.BMPDecoder;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.filesystem.File;
+	import flash.net.URLLoader;
+	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	
 	/**
@@ -14,8 +19,11 @@ package
 	{
 		private var _loadedImg:Image;
 		private var _pathArray:Array = new Array();
+		private var _pathArrayBmp:Array = new Array();
 		private var _loader:Loader = new Loader();
+		private var _urlLoader:URLLoader = new URLLoader();
 		private var _imgLoadIdx:int = 0;
+		private var _imgLoadIdxBmp:int = 0;
 		
 		public function ImageLoad()
 		{
@@ -31,6 +39,10 @@ package
 			_imgLoadIdx = 0;
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaderCompleteHandler);
 			_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, loaderErrorHandler);	
+			
+			_urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
+			_urlLoader.addEventListener(Event.COMPLETE, urlLoaderCompleteHandler);
+			_urlLoader.addEventListener(IOErrorEvent.IO_ERROR, loaderErrorHandler);
 			
 			imgPathSearch();
 			imgLoading();
@@ -49,18 +61,17 @@ package
 			{ 	 			  
 				if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_PNG) == (getfiles[i].url.length-4)) 
 				{
-					_pathArray.push(new URLRequest(getfiles[i].url))
+					_pathArray.push(new URLRequest(getfiles[i].url));
 				}
 				else if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_JPG) == (getfiles[i].url.length-4))
 				{
-					_pathArray.push(new URLRequest(getfiles[i].url))
-					
+					_pathArray.push(new URLRequest(getfiles[i].url));
 				}
-				/*		else if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_BMP) == (getfiles[i].url.length-4))
-				{
-				_pathArray.push(new URLRequest(getfiles[i].url))
+				else if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_BMP) == (getfiles[i].url.length-4))
+				{ 
+					_pathArrayBmp.push(new URLRequest(getfiles[i].url));
 				}
-			*/	}
+			}
 		}
 		
 		/**
@@ -74,8 +85,8 @@ package
 		/**
 		 * @param e : loader의 이벤트
 		 * @brief 개별 이미지 로딩이 끝났을때 호출. 읽어온 데이터는 array에 push함.
-		 *        디렉토리내의 모든 이미지 로딩이 끝났을 경우 addChild를 하고
-		 *        아직 읽어야할 이미지가 있을 경우 다음 이미지를 읽기 위해 함수 호출.
+		 *        _pathArray에 해당되는 경로의 png,jpg 이미지들을 다 읽으면 BMP파일을 읽기 위해 loadBMPFile 함수를 호출하고,
+		 *        아직 읽어야할 png,jpg 이미지가 있을 경우 다음 이미지를 읽기 위해 imgLoading 함수 호출.
 		 */		
 		private function loaderCompleteHandler(e:Event):void 
 		{		
@@ -83,12 +94,8 @@ package
 			_loadedImg._img = e.target.content;
 			GlobalData.imgVector.push(_loadedImg);
 			
-			if(_imgLoadIdx == _pathArray.length-1)
-			{     
-				clearListeners();
-				GlobalData.imagePacking.imgPacking();
-			}
-				
+			if(_imgLoadIdx == _pathArray.length-1) loadBMPFile();
+
 			else
 			{
 				_imgLoadIdx++;
@@ -112,6 +119,45 @@ package
 		{
 			_loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, loaderCompleteHandler);
 			_loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, loaderErrorHandler);
+			_urlLoader.removeEventListener(Event.COMPLETE, urlLoaderCompleteHandler);
+			_urlLoader.removeEventListener(IOErrorEvent.IO_ERROR, loaderErrorHandler);
 		}
+		
+		/**
+		 * @brief BMP파일을 urlLoader를 사용해서 읽어옴.
+		 */
+		private function loadBMPFile():void 
+		{
+			if(_pathArrayBmp.length) _urlLoader.load(_pathArrayBmp[_imgLoadIdxBmp]);
+		}
+
+		/**
+		 * @brief BMP파일을 다읽었을 경우 호출됨.
+		 *        읽은 BMP파일을 Bitmap에 맞게끔 변환을 해서 이미지 벡터에 push함.
+		 *        모든 BMP파일을 읽었을 경우 이미지를 한장으로 만들기 위해 imgPacking 호출
+		 *        아직 BMP파일이 남았을 경우 loadBMPFile을 호출해서 다음 파일을 읽음.
+		 */
+		private function urlLoaderCompleteHandler( e:Event ):void 
+		{
+			var loader:URLLoader = e.target as URLLoader;
+			var decoder:BMPDecoder = new BMPDecoder();
+			var bd:BitmapData = decoder.decode( loader.data );
+			_loadedImg = new Image;
+			_loadedImg._img = new Bitmap(bd,"auto",true);
+			GlobalData.imgVector.push(_loadedImg);
+			
+			if(_imgLoadIdxBmp == _pathArrayBmp.length-1)
+			{
+				clearListeners();
+				GlobalData.imagePacking.imgPacking();
+			}
+				
+			else
+			{
+				_imgLoadIdxBmp++;
+				loadBMPFile();
+			}
+		}
+
 	}
 }
