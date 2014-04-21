@@ -16,17 +16,21 @@ package
 		public static const FILENAME_EXTENSION_JPG:String = ".jpg";
 		public static const FILENAME_EXTENSION_PNG:String = ".png";
 		public static const FILENAME_EXTENSION_BMP:String = ".bmp";
+		public static const PATH_IN_FILE:String = "resource/in";
+		public static const PATH_OUT_FILE:String = "out/spritesheet.png";
+		public static const BITMAP_PIXEL_SNAPPING_AUTO:String = "auto"
 		
 		public static const SPRITE_SHEET_MAX_WIDTH:int = 1024;
 		public static const SPRITE_SHEET_MAX_HEIGHT:int = 1024;
 		
-		public static const IMAGE_BORDERLINE:int = 1;
+		public static const IMAGE_BORDERLINE:int = 2;
 		
 		public static var globalStage:Stage;
 		public static var imgVector:Vector.<Image> = new Vector.<Image>();
 		public static var imgVectorIdx:int = 0;
 		public static var packingTreeRoot:Node = new Node;
 		public static var imagePacking:ImagePacking = new ImagePacking;
+		public static var spriteSheetPrint:SpriteSheetPrint = new SpriteSheetPrint;
 		
 		/**
 		 * @param stage : main클래스에서 받아온 stage

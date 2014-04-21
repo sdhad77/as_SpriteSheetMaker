@@ -22,8 +22,7 @@ package
 		{
 			globalData = new GlobalData(stage);
 			
-			_imageLoad.imageLoad();	
-			
+			_imageLoad.imageLoad();
 		}
 	} 
 } 
