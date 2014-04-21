@@ -35,11 +35,7 @@ package
 			globalStage = stage;
 			
 			//sprite sheet를 만들기 위한 트리의 루트.
-			packingTreeRoot = new Node;
 			packingTreeRoot.rect = new Rect(0,0,SPRITE_SHEET_MAX_WIDTH,SPRITE_SHEET_MAX_HEIGHT);
-			
-			//이미지 저장 벡터의 인덱스
-			imgVectorIdx = 0;
 			
 			setting();
 		}
