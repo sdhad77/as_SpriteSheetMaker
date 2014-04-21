@@ -16,18 +16,18 @@ package
 		 */
 		public function isSameSize(rc:Rect):Boolean
 		{
-			if((rc.width == width) && (rc.height == height)) return true;
+			if((rc.width == this.width) && (rc.height == this.height)) return true;
 			else return false;
 		}
 		
 		/**
 		 * @param rc 비교할 Rect
-		 * @return 호출된(this)의 크기가 더 작으면 true
-		 * @brief width와 height를 이용하여 두 사각형의 크기를 비교하고, this의 사각형이 더 작을 경우 true 반환
+		 * @return 호출된(this)의 크기가 더 크면 true
+		 * @brief width와 height를 이용하여 두 사각형의 크기를 비교하고, this의 사각형이 더 클 경우 true 반환
 		 */
-		public function isSmallSize(rc:Rect):Boolean
+		public function isTooBig(rc:Rect):Boolean
 		{
-			if((rc.width >= width) && (rc.height >= height)) return true;
+			if((this.width >= rc.width) && (this.height >= rc.height)) return true;
 			else return false;
 		}
 	}
