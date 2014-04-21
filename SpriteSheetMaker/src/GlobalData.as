@@ -19,6 +19,7 @@ package
 		
 		public static var globalStage:Stage;
 		public static var imgVector:Vector.<Image> = new Vector.<Image>();
+		public static var packingTreeRoot:Node;
 		
 		/**
 		 * @param stage : main클래스에서 받아온 stage
@@ -27,6 +28,7 @@ package
 		public function GlobalData(stage)
 		{
 			globalStage = stage;
+			packingTreeRoot = new Node;
 			setting();
 		}
 		
