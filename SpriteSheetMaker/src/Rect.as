@@ -27,7 +27,7 @@ package
 		 */
 		public function isTooBig(rc:Rect):Boolean
 		{
-			if((this.width >= rc.width) && (this.height >= rc.height)) return true;
+			if((this.width > rc.width) || (this.height > rc.height)) return true;
 			else return false;
 		}
 	}
