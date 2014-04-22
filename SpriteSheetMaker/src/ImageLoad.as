@@ -149,15 +149,18 @@ package
 			if(_imgLoadIdxBmp == _pathArrayBmp.length-1)
 			{
 				clearImageLoad();
-				GlobalData.imagePacking.imgPacking();
 				
+				var imagePacking:ImagePacking = new ImagePacking;
 				var spriteSheetPrint:SpriteSheetPrint = new SpriteSheetPrint;
 				var xmlPrint:XMLPrint = new XMLPrint;
+				
+				imagePacking.imgPacking();
 				
 				spriteSheetPrint.print();
 				xmlPrint.inputData();
 				xmlPrint.print();
 				
+				imagePacking = null;
 				spriteSheetPrint = null;
 				xmlPrint = null;
 				loader = null;
