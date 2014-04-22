@@ -18,8 +18,9 @@ package
 		public static const FILENAME_EXTENSION_PNG:String = ".png";
 		public static const FILENAME_EXTENSION_BMP:String = ".bmp";
 		public static const PATH_IN_FILE:String = "resource/in";
-		public static const PATH_OUT_FILE:String = "out/spritesheet.png";
-		public static const BITMAP_PIXEL_SNAPPING_AUTO:String = "auto"
+		public static const PATH_OUT_FILE_PNG:String = "out/spritesheet.png";
+		public static const PATH_OUT_FILE_XML:String = "out/atlas.xml";
+		public static const BITMAP_PIXEL_SNAPPING_AUTO:String = "auto";
 		
 		public static const SPRITE_SHEET_MAX_WIDTH:int = 1024;
 		public static const SPRITE_SHEET_MAX_HEIGHT:int = 1024;
@@ -31,7 +32,6 @@ package
 		public static var imgVectorIdx:int = 0;
 		public static var packingTreeRoot:Node = new Node;
 		public static var imagePacking:ImagePacking = new ImagePacking;
-		public static var spriteSheetPrint:SpriteSheetPrint = new SpriteSheetPrint;
 		
 		//mouse click 이벤트를 처리하기 위한 전역변수.
 		//isFirstTouch 는 처음으로 클릭한것인지 판별하기 위함
