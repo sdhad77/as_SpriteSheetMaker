@@ -173,6 +173,7 @@ package
 				xmlPrint = null;
 				loader = null;
 				decoder = null;
+				bd.dispose();
 				bd = null;
 			}
 				
@@ -189,13 +190,19 @@ package
 		private function clearImageLoad():void
 		{
 			clearListeners();
+			
+			while(_pathArray.length)    _pathArray.pop();
+			while(_pathArrayBmp.length) _pathArrayBmp.pop();
+			while(_fileName.length)     _fileName.pop();
+			while(_fileNameBMP.length)  _fileNameBMP.pop();
+			
 			_loadedImg = null;
 			_pathArray = null;
 			_pathArrayBmp = null;
-			_loader = null;
-			_urlLoader = null;
 			_fileName = null;
 			_fileNameBMP = null;
+			_loader = null;
+			_urlLoader = null;
 		}
 	}
 }
