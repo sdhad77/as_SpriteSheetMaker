@@ -10,6 +10,7 @@ package
 		internal var _name:String;
 		internal var _rotate:Boolean = false;
 		private var _mySprite:Sprite = new Sprite;
+		internal var _isPacked:Boolean = false;
 		
 		public function Image()
 		{

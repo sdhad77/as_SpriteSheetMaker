@@ -22,7 +22,7 @@ package
 			
 			for(var i:int; i<GlobalData.imgVector.length; i++)
 			{
-				pngSource.draw(GlobalData.imgVector[i]._img, new Matrix(1,0,0,1,GlobalData.imgVector[i]._img.x,GlobalData.imgVector[i]._img.y));
+				if(GlobalData.imgVector[i]._isPacked) pngSource.draw(GlobalData.imgVector[i]._img, new Matrix(1,0,0,1,GlobalData.imgVector[i]._img.x,GlobalData.imgVector[i]._img.y));
 			}
 			
 			var ba:ByteArray = PNGEncoder.encode(pngSource);
@@ -34,7 +34,8 @@ package
 			
 			GlobalData.globalStage.addChild(new Bitmap(pngSource));
 			
-		//	fileStream = null;
+			fileStream = null;
+			file = null;
 			
 			trace("출력완료");
 		}

@@ -32,6 +32,7 @@ package
 				GlobalData.imgVector[imgVectorIdx]._img.x = _node.rect.x;
 				GlobalData.imgVector[imgVectorIdx]._img.y = _node.rect.y;
 				GlobalData.imgVector[imgVectorIdx].setRect();
+				GlobalData.imgVector[imgVectorIdx]._isPacked = true;
 			}
 				//이미지 저장할 공간이 없을 경우
 			else trace("packing 실패");
