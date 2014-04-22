@@ -148,7 +148,7 @@ package
 			
 			if(_imgLoadIdxBmp == _pathArrayBmp.length-1)
 			{
-				clearListeners();
+				clearImageLoad();
 				GlobalData.imagePacking.imgPacking();
 				GlobalData.spriteSheetPrint.print();
 			}
@@ -160,5 +160,17 @@ package
 			}
 		}
 
+		/**
+		 *  brief 사용이 끝난 객체들 연결을 끊어주는 함수
+		 */
+		private function clearImageLoad():void
+		{
+			clearListeners();
+			_loadedImg = null;
+			_pathArray = null;
+			_pathArrayBmp = null;
+			_loader = null;
+			_urlLoader = null;
+		}
 	}
 }
