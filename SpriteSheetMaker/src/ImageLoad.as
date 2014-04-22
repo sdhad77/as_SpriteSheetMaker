@@ -150,7 +150,19 @@ package
 			{
 				clearImageLoad();
 				GlobalData.imagePacking.imgPacking();
-				GlobalData.spriteSheetPrint.print();
+				
+				var spriteSheetPrint:SpriteSheetPrint = new SpriteSheetPrint;
+				var xmlPrint:XMLPrint = new XMLPrint;
+				
+				spriteSheetPrint.print();
+				xmlPrint.inputData();
+				xmlPrint.print();
+				
+				spriteSheetPrint = null;
+				xmlPrint = null;
+				loader = null;
+				decoder = null;
+				bd = null;
 			}
 				
 			else
