@@ -1,6 +1,7 @@
 package
 {
 	import com.voidelement.images.BMPDecoder;
+	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
@@ -24,6 +25,8 @@ package
 		private var _urlLoader:URLLoader = new URLLoader();
 		private var _imgLoadIdx:int = 0;
 		private var _imgLoadIdxBmp:int = 0;
+		private var _fileName:Array = new Array();
+		private var _fileNameBMP:Array = new Array();
 		
 		public function ImageLoad()
 		{
@@ -62,14 +65,17 @@ package
 				if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_PNG) == (getfiles[i].url.length-4)) 
 				{
 					_pathArray.push(new URLRequest(getfiles[i].url));
+					_fileName.push(getfiles[i].url.substring(getfiles[i].url.lastIndexOf("/") + 1));
 				}
 				else if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_JPG) == (getfiles[i].url.length-4))
 				{
 					_pathArray.push(new URLRequest(getfiles[i].url));
+					_fileName.push(getfiles[i].url.substring(getfiles[i].url.lastIndexOf("/") + 1));
 				}
 				else if(getfiles[i].url.search(GlobalData.FILENAME_EXTENSION_BMP) == (getfiles[i].url.length-4))
 				{ 
 					_pathArrayBmp.push(new URLRequest(getfiles[i].url));
+					_fileNameBMP.push(getfiles[i].url.substring(getfiles[i].url.lastIndexOf("/") + 1));
 				}
 			}
 		}
@@ -92,6 +98,7 @@ package
 		{		
 			_loadedImg = new Image;
 			_loadedImg._img = e.target.content;
+			_loadedImg._name = _fileName[_imgLoadIdx];
 			GlobalData.imgVector.push(_loadedImg);
 			
 			if(_imgLoadIdx == _pathArray.length-1) loadBMPFile();
@@ -144,6 +151,7 @@ package
 			var bd:BitmapData = decoder.decode( loader.data );
 			_loadedImg = new Image;
 			_loadedImg._img = new Bitmap(bd,GlobalData.BITMAP_PIXEL_SNAPPING_AUTO,true);
+			_loadedImg._name = _fileNameBMP[_imgLoadIdxBmp];
 			GlobalData.imgVector.push(_loadedImg);
 			
 			if(_imgLoadIdxBmp == _pathArrayBmp.length-1)
@@ -186,6 +194,8 @@ package
 			_pathArrayBmp = null;
 			_loader = null;
 			_urlLoader = null;
+			_fileName = null;
+			_fileNameBMP = null;
 		}
 	}
 }
