@@ -30,6 +30,10 @@ package
 			fileStream.writeBytes(ba);
 			fileStream.close();
 			
+			pngSource.dispose();
+			pngSource = null;
+			fileStream = null;
+			
 			trace("출력완료");
 		}
 	}
