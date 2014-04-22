@@ -24,7 +24,7 @@ package
 			}
 			
 			var ba:ByteArray = PNGEncoder.encode(pngSource);
-			var file:File = File.desktopDirectory.resolvePath(GlobalData.PATH_OUT_FILE);
+			var file:File = File.desktopDirectory.resolvePath(GlobalData.PATH_OUT_FILE_PNG);
 			var fileStream:FileStream = new FileStream();
 			fileStream.open(file, FileMode.WRITE);
 			fileStream.writeBytes(ba);
