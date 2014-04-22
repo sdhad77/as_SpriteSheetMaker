@@ -31,7 +31,6 @@ package
 				//이미지 위치 세팅 후 addChild
 				GlobalData.imgVector[imgVectorIdx]._img.x = _node.rect.x;
 				GlobalData.imgVector[imgVectorIdx]._img.y = _node.rect.y;
-				GlobalData.globalStage.addChild(GlobalData.imgVector[imgVectorIdx]._img);
 				GlobalData.imgVector[imgVectorIdx].setRect();
 			}
 				//이미지 저장할 공간이 없을 경우

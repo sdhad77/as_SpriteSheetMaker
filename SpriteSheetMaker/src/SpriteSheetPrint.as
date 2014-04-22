@@ -1,6 +1,8 @@
 package
 {
 	import com.adobe.images.PNGEncoder;
+	
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
@@ -30,9 +32,9 @@ package
 			fileStream.writeBytes(ba);
 			fileStream.close();
 			
-			pngSource.dispose();
-			pngSource = null;
-			fileStream = null;
+			GlobalData.globalStage.addChild(new Bitmap(pngSource));
+			
+		//	fileStream = null;
 			
 			trace("출력완료");
 		}
