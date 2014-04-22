@@ -18,19 +18,19 @@ package
 		
 		public function inputData():void
 		{
-			var newItem:XML =
-				<img>
-				<name></name>
-				<x></x>
-				<y></y>
-				<width></width>
-				<height></height>
-				<rotated></rotated>
-				</img>;
-			
 			for(var i:int=0; i<GlobalData.imgVector.length; i++)
 			{
-				newItem.name    = GlobalData.imgVector[i]._img.name;
+				var newItem:XML =
+					<img>
+					<name></name>
+					<x></x>
+					<y></y>
+					<width></width>
+					<height></height>
+					<rotated></rotated>
+					</img>;
+				
+				newItem.name    = GlobalData.imgVector[i]._name;
 				newItem.x       = GlobalData.imgVector[i]._img.x;
 				newItem.y       = GlobalData.imgVector[i]._img.y;
 				newItem.width   = GlobalData.imgVector[i]._img.width;
