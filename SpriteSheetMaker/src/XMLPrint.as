@@ -38,6 +38,7 @@ package
 				newItem.rotated = GlobalData.imgVector[i]._rotate;
 				
 				_xml.appendChild(newItem);
+				newItem = null;
 			}
 		}
 		
@@ -50,6 +51,10 @@ package
 			fileStream.open(file, FileMode.WRITE);
 			fileStream.writeUTFBytes(ba.toString());
 			fileStream.close();
+			
+			ba.clear();
+			ba = null;
+			fileStream = null;
 		}
 	}
 }

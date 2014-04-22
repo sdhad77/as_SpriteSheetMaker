@@ -36,6 +36,8 @@ package
 			GlobalData.beforeUseSprite = localSprite;
 			GlobalData.globalStage.addChild(localSprite);
 			
+			localSprite = null;
+			
 			trace("클릭");
 		}
 	}
