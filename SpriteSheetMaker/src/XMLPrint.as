@@ -20,25 +20,28 @@ package
 		{
 			for(var i:int=0; i<GlobalData.imgVector.length; i++)
 			{
-				var newItem:XML =
-					<img>
-					<name></name>
-					<x></x>
-					<y></y>
-					<width></width>
-					<height></height>
-					<rotated></rotated>
-					</img>;
-				
-				newItem.name    = GlobalData.imgVector[i]._name;
-				newItem.x       = GlobalData.imgVector[i]._img.x;
-				newItem.y       = GlobalData.imgVector[i]._img.y;
-				newItem.width   = GlobalData.imgVector[i]._img.width;
-				newItem.height  = GlobalData.imgVector[i]._img.height;
-				newItem.rotated = GlobalData.imgVector[i]._rotate;
-				
-				_xml.appendChild(newItem);
-				newItem = null;
+				if(GlobalData.imgVector[i]._isPacked)
+				{
+					var newItem:XML =
+						<img>
+						<name></name>
+						<x></x>
+						<y></y>
+						<width></width>
+						<height></height>
+						<rotated></rotated>
+						</img>;
+					
+					newItem.name    = GlobalData.imgVector[i]._name;
+					newItem.x       = GlobalData.imgVector[i]._img.x;
+					newItem.y       = GlobalData.imgVector[i]._img.y;
+					newItem.width   = GlobalData.imgVector[i]._img.width;
+					newItem.height  = GlobalData.imgVector[i]._img.height;
+					newItem.rotated = GlobalData.imgVector[i]._rotate;
+					
+					_xml.appendChild(newItem);
+					newItem = null;
+				}
 			}
 		}
 		
