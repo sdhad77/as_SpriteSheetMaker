@@ -29,9 +29,6 @@ package
 		
 		public static var globalStage:Stage;
 		public static var imgVector:Vector.<Image> = new Vector.<Image>();
-		public static var imgVectorIdx:int = 0;
-		public static var packingTreeRoot:Node = new Node;
-		public static var imagePacking:ImagePacking = new ImagePacking;
 		
 		//mouse click 이벤트를 처리하기 위한 전역변수.
 		//isFirstTouch 는 처음으로 클릭한것인지 판별하기 위함
@@ -47,9 +44,6 @@ package
 		public function GlobalData(stage)
 		{	//stage를 전역으로.
 			globalStage = stage;
-			
-			//sprite sheet를 만들기 위한 트리의 루트.
-			packingTreeRoot.rect = new Rect(IMAGE_BORDERLINE,IMAGE_BORDERLINE,SPRITE_SHEET_MAX_WIDTH,SPRITE_SHEET_MAX_HEIGHT);
 			
 			setting();
 		}
