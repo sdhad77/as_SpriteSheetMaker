@@ -33,6 +33,10 @@ package
 		private var _imgLoadIdx     :int;       //_pathArray의 인덱스
 		private var _bmpDecoder     :BMPDecoder;//bmp파일을 읽기 위한 디코더
 		
+		//이미지 패킹 관련
+		private var _packedSpace    :int;       //현재까지 패킹된 공간을 저장함
+		private var _packingMaxSpace:int;       //최대 저장가능한 공간을 저장함
+		
 		//이미지 출력 관련
 		private var _xml            :XML;
 		
@@ -53,6 +57,9 @@ package
 			_urlLoader = new URLLoader();
 			_imgLoadIdx = 0;
 			_bmpDecoder = new BMPDecoder();
+			
+			_packedSpace = 0;
+			_packingMaxSpace = 0;
 			
 			_xml       = new XML;
 
@@ -275,6 +282,9 @@ package
 			var packingTreeRoot:Node = new Node;
 			packingTreeRoot.rect = new Rect(GlobalData.IMAGE_BORDERLINE,GlobalData.IMAGE_BORDERLINE,GlobalData.SPRITE_SHEET_MAX_WIDTH,GlobalData.SPRITE_SHEET_MAX_HEIGHT);
 			
+			//최대 저장 가능 공간 설정. 현재는 고정 크기라 이곳에 선언하지만, 가변 크기로 바꾸면 for문장 안에 추가시켜야 함.
+			_packingMaxSpace = ((GlobalData.SPRITE_SHEET_MAX_WIDTH - GlobalData.IMAGE_BORDERLINE) * (GlobalData.SPRITE_SHEET_MAX_HEIGHT - GlobalData.IMAGE_BORDERLINE));
+			
 			for(var i:int = 0; i < imgVector.length; i++)
 			{
 				//Sheet에 추가할 이미지의 width,height 세팅
@@ -293,6 +303,10 @@ package
 					imgVector[i].img.y = node.rect.y;
 					imgVector[i].setRect();
 					imgVector[i].isPacked = true;
+					
+					//패킹된 영역을 나타내기 위함.
+					_packedSpace += imgVector[i].size;
+					trace(_packedSpace / _packingMaxSpace * 100);
 				}
 					//이미지 저장할 공간이 없을 경우
 				else trace("packing 실패");
