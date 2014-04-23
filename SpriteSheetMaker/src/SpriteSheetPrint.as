@@ -22,7 +22,7 @@ package
 			
 			for(var i:int; i<GlobalData.imgVector.length; i++)
 			{
-				if(GlobalData.imgVector[i]._isPacked) pngSource.draw(GlobalData.imgVector[i]._img, new Matrix(1,0,0,1,GlobalData.imgVector[i]._img.x,GlobalData.imgVector[i]._img.y));
+				if(GlobalData.imgVector[i].isPacked) pngSource.draw(GlobalData.imgVector[i].img, new Matrix(1,0,0,1,GlobalData.imgVector[i].img.x,GlobalData.imgVector[i].img.y));
 			}
 			
 			var ba:ByteArray = PNGEncoder.encode(pngSource);

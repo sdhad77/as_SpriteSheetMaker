@@ -19,8 +19,8 @@ package
 		{
 			//Sheet에 추가할 이미지의 width,height 세팅
 			_rect = new Rect(0,0,
-				GlobalData.imgVector[imgVectorIdx]._img.width + GlobalData.IMAGE_BORDERLINE,
-				GlobalData.imgVector[imgVectorIdx]._img.height + GlobalData.IMAGE_BORDERLINE);         
+				GlobalData.imgVector[imgVectorIdx].img.width + GlobalData.IMAGE_BORDERLINE,
+				GlobalData.imgVector[imgVectorIdx].img.height + GlobalData.IMAGE_BORDERLINE);         
 			
 			//트리 탐색과정
 			_node = packingTreeRoot.Insert_Rect(_rect);   
@@ -29,10 +29,10 @@ package
 			if(_node)
 			{	
 				//이미지 위치 세팅 후 addChild
-				GlobalData.imgVector[imgVectorIdx]._img.x = _node.rect.x;
-				GlobalData.imgVector[imgVectorIdx]._img.y = _node.rect.y;
+				GlobalData.imgVector[imgVectorIdx].img.x = _node.rect.x;
+				GlobalData.imgVector[imgVectorIdx].img.y = _node.rect.y;
 				GlobalData.imgVector[imgVectorIdx].setRect();
-				GlobalData.imgVector[imgVectorIdx]._isPacked = true;
+				GlobalData.imgVector[imgVectorIdx].isPacked = true;
 			}
 				//이미지 저장할 공간이 없을 경우
 			else trace("packing 실패");
