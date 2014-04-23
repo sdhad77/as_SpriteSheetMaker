@@ -34,8 +34,10 @@ package
 		private var _bmpDecoder     :BMPDecoder;//bmp파일을 읽기 위한 디코더
 		
 		//이미지 패킹 관련
-		private var _packedSpace    :int;       //현재까지 패킹된 공간을 저장함
-		private var _packingMaxSpace:int;       //최대 저장가능한 공간을 저장함
+		private var _packedSpace       :int;    //현재까지 패킹된 공간을 저장함
+		private var _packingMaxSpace   :int;    //최대 저장가능한 공간을 저장함
+		private var _packingSpaceWidth :int;    //패킹한 이미지들을 저장할 png의 width
+		private var _packingSpaceHeight:int;    //패킹한 이미지들을 저장할 png의 height
 		
 		//이미지 출력 관련
 		private var _xml            :XML;
@@ -60,6 +62,8 @@ package
 			
 			_packedSpace = 0;
 			_packingMaxSpace = 0;
+			_packingSpaceWidth = 1024;
+			_packingSpaceHeight = 1024;
 			
 			_xml       = new XML;
 
@@ -280,10 +284,10 @@ package
 			var rect:Rect;
 			var node:Node;
 			var packingTreeRoot:Node = new Node;
-			packingTreeRoot.rect = new Rect(GlobalData.IMAGE_BORDERLINE,GlobalData.IMAGE_BORDERLINE,GlobalData.SPRITE_SHEET_MAX_WIDTH,GlobalData.SPRITE_SHEET_MAX_HEIGHT);
+			packingTreeRoot.rect = new Rect(GlobalData.IMAGE_BORDERLINE, GlobalData.IMAGE_BORDERLINE, _packingSpaceWidth, _packingSpaceHeight);
 			
 			//최대 저장 가능 공간 설정. 현재는 고정 크기라 이곳에 선언하지만, 가변 크기로 바꾸면 for문장 안에 추가시켜야 함.
-			_packingMaxSpace = ((GlobalData.SPRITE_SHEET_MAX_WIDTH - GlobalData.IMAGE_BORDERLINE) * (GlobalData.SPRITE_SHEET_MAX_HEIGHT - GlobalData.IMAGE_BORDERLINE));
+			_packingMaxSpace = ((_packingSpaceWidth - packingTreeRoot.rect.x) * (_packingSpaceHeight - packingTreeRoot.rect.y));
 			
 			for(var i:int = 0; i < imgVector.length; i++)
 			{
@@ -293,7 +297,7 @@ package
 					imgVector[i].img.height + GlobalData.IMAGE_BORDERLINE);   
 				
 				//트리 탐색과정
-				node = packingTreeRoot.Insert_Rect(rect);   
+				node = Insert_Rect(packingTreeRoot, rect);  
 				
 				//이미지가 저장될 공간이 있을 경우
 				if(node)
@@ -314,6 +318,41 @@ package
 			
 			//현재는 단순 null 처리지만, 트리 순회하여 자식들 null 시켜줘야 함.
 			packingTreeRoot = null;
+		}
+		
+		public function Insert_Rect(root:Node, rc:Rect):Node
+		{
+			if(root.left != null) return Insert_Rect(root.left, rc) || Insert_Rect(root.right, rc);
+			
+			if(root.filled) return null;
+			
+			if(rc.isTooBig(root.rect)) return null;
+			
+			if(rc.isSameSize(root.rect))
+			{
+				root.filled = true;
+				return root;
+			}
+			
+			root.left = new Node();
+			root.right = new Node();
+			
+			var dw:int = root.rect.width - rc.width;
+			var dh:int = root.rect.height - rc.height;       
+			
+			if(dw > dh)
+			{
+				root.left.rect = new Rect(root.rect.x, root.rect.y, rc.width, root.rect.height);
+				root.right.rect = new Rect(root.rect.x + rc.width, root.rect.y,dw, root.rect.height);
+			}
+				
+			else 
+			{
+				root.left.rect = new Rect(root.rect.x, root.rect.y, root.rect.width, rc.height);
+				root.right.rect = new Rect(root.rect.x, root.rect.y + rc.height, root.rect.width, dh);
+			}        
+			
+			return Insert_Rect(root.left, rc); 
 		}
 		
 		/**
@@ -350,7 +389,7 @@ package
 		 */
 		private function pngPrint():void
 		{
-			var pngSource:BitmapData = new BitmapData (GlobalData.SPRITE_SHEET_MAX_WIDTH, GlobalData.SPRITE_SHEET_MAX_HEIGHT,true,0x00000000);
+			var pngSource:BitmapData = new BitmapData (_packingSpaceWidth, _packingSpaceHeight,true,0x00000000);
 			
 			//이미지 한장에 그리는 중
 			for(var i:int; i<imgVector.length; i++)
