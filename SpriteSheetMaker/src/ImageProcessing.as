@@ -233,6 +233,9 @@ package
 		 */
 		public function imgPack():void
 		{
+			//이미지를 크기순으로 정렬
+			imgSorting();
+			
 			//이미지 패킹 시작
 			imgPacking();
 			
@@ -241,6 +244,25 @@ package
 			
 			//메모리 해제
 			clearImagePack();
+		}
+		
+		/**
+		 * 벡터내의 이미지를 크기순으로 정렬. 크기는 width * hegiht의 곱임.
+		 */
+		private function imgSorting():void
+		{
+			imgVector.sort(imgSortingCompareFunc);
+		}
+		
+		/**
+		 * size가 더 큰 이미지가 앞쪽으로 정렬되게 함. size = width ＊ height
+		 * @param x 비교할 이미지1
+		 * @param y 비교할 이미지2
+		 * @return 이미지2의 size - 이미지1의 size
+		 */
+		private function imgSortingCompareFunc(x:Image, y:Image):Number
+		{
+			return y.size - x.size;
 		}
 		
 		/**
@@ -275,6 +297,9 @@ package
 					//이미지 저장할 공간이 없을 경우
 				else trace("packing 실패");
 			}
+			
+			//현재는 단순 null 처리지만, 트리 순회하여 자식들 null 시켜줘야 함.
+			packingTreeRoot = null;
 		}
 		
 		/**
