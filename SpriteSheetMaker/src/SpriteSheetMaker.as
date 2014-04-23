@@ -11,7 +11,6 @@ package
 	public class SpriteSheetMaker extends Sprite 
 	{ 
 		public static var globalData:GlobalData;
-		private var _imageLoad:ImageLoad = new ImageLoad();
 		
 		/**
 		 * @brief main의 생성자 
@@ -22,7 +21,8 @@ package
 		{
 			globalData = new GlobalData(stage);
 			
-			_imageLoad.imageLoad();
+			var imageProcessing:ImageProcessing = new ImageProcessing;
+			imageProcessing.imageLoad();
 		}
 	} 
 } 
