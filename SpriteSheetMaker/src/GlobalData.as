@@ -28,7 +28,6 @@ package
 		public static const IMAGE_BORDERLINE:int = 2;
 		
 		public static var globalStage:Stage;
-		public static var imgVector:Vector.<Image> = new Vector.<Image>();
 		
 		//mouse click 이벤트를 처리하기 위한 전역변수.
 		//isFirstTouch 는 처음으로 클릭한것인지 판별하기 위함
