@@ -97,8 +97,9 @@ package
 		private function loaderCompleteHandler(e:Event):void 
 		{		
 			_loadedImg = new Image;
-			_loadedImg._img = e.target.content;
-			_loadedImg._name = _fileName[_imgLoadIdx];
+			_loadedImg.img = e.target.content;
+			_loadedImg.name = _fileName[_imgLoadIdx];
+			_loadedImg.size = _loadedImg.img.width * _loadedImg.img.height;
 			GlobalData.imgVector.push(_loadedImg);
 			
 			if(_imgLoadIdx == _pathArray.length-1) loadBMPFile();
@@ -150,8 +151,9 @@ package
 			var decoder:BMPDecoder = new BMPDecoder();
 			var bd:BitmapData = decoder.decode( loader.data );
 			_loadedImg = new Image;
-			_loadedImg._img = new Bitmap(bd,GlobalData.BITMAP_PIXEL_SNAPPING_AUTO,true);
-			_loadedImg._name = _fileNameBMP[_imgLoadIdxBmp];
+			_loadedImg.img = new Bitmap(bd,GlobalData.BITMAP_PIXEL_SNAPPING_AUTO,true);
+			_loadedImg.name = _fileNameBMP[_imgLoadIdxBmp];
+			_loadedImg.size = _loadedImg.img.width * _loadedImg.img.height;
 			GlobalData.imgVector.push(_loadedImg);
 			
 			if(_imgLoadIdxBmp == _pathArrayBmp.length-1)
