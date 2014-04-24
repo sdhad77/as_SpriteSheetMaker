@@ -392,9 +392,10 @@ package
 		 */
 		private function packingSpaceExtend(root:Node):Node
 		{
-			//가로세로 2배 증가
-			_packingSpaceWidth = _packingSpaceWidth + _packingSpaceWidth;
-			_packingSpaceHeight = _packingSpaceHeight + _packingSpaceHeight;
+			//가로 혹은 세로 2배 증가
+			if(_packingSpaceWidth > _packingSpaceHeight) _packingSpaceHeight = _packingSpaceHeight + _packingSpaceHeight;
+			else _packingSpaceWidth = _packingSpaceWidth + _packingSpaceWidth;
+
 			_packingMaxSpace = _packingSpaceWidth * _packingSpaceHeight;
 			
 			//새로운 탐색을 위해 노드를 새로 설정함
