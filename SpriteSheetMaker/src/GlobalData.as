@@ -1,11 +1,7 @@
 package
 {
-	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
 	import flash.display.Stage;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
-	import flash.events.Event;
 	
 	/** 
 	 * @author 신동환
@@ -54,27 +50,6 @@ package
 		public function GlobalData(stage)
 		{	//stage를 전역으로.
 			globalStage = stage;
-			
-			setting();
 		}
-		
-		/**
-		 * @brief 환경설정을 하는 함수 
-		 */
-		private function setting():void
-		{
-			globalStage.scaleMode = StageScaleMode.NO_SCALE;  
-			globalStage.align = StageAlign.TOP_LEFT;
-			globalStage.addEventListener(Event.DEACTIVATE, deactivate);
-		}
-		
-		/**
-		 * @param e : 전역 stage의 이벤트
-		 * @brief 화면에서 어플리케이션이 사라질 경우 자동으로 종료.
-		 */
-		private function deactivate(e:Event):void   
-		{  
-			NativeApplication.nativeApplication.exit();  
-		} 
 	}
 }
