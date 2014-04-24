@@ -12,13 +12,15 @@ package
 		private var _mySprite:Sprite = new Sprite;
 		private var _isPacked:Boolean = false;
 		private var _size:int;
+		private var _imgBorderLine:int;
 		
 		public function Image()
 		{
 		}
 		
-		public function setRect():void
+		public function setRect(borderLine:int):void
 		{
+			_imgBorderLine = borderLine;
 			_mySprite.graphics.beginFill(0x000000,0);
 			_mySprite.graphics.drawRect(_img.x, _img.y, _img.width, _img.height);
 			_mySprite.graphics.endFill();
@@ -33,7 +35,7 @@ package
 			if(GlobalData.isFirstTouch) GlobalData.isFirstTouch = false;
 			else GlobalData.globalStage.removeChild(GlobalData.beforeUseSprite);
 
-			localSprite.graphics.lineStyle(GlobalData.IMAGE_BORDERLINE,1,1);
+			localSprite.graphics.lineStyle(_imgBorderLine,1,1);
 			localSprite.graphics.drawRect(_img.x, _img.y, _img.width, _img.height);
 			GlobalData.beforeUseSprite = localSprite;
 			GlobalData.globalStage.addChild(localSprite);
