@@ -23,7 +23,8 @@ package
 	 */
 	public class ImageProcessing
 	{
-		private var imgVector:Vector.<Image>;   //읽어온 이미지들을 저장하기 위한 벡터
+		private var _imgVector:Vector.<Image>;   //읽어온 이미지들을 저장하기 위한 벡터
+		private var _imgBorderLine   :int;       //이미지의 경계선 두께
 		
 		//이미지 로딩 관련
 		private var _loadedImg      :Image;     //파일에서 읽어온 이미지 저장
@@ -52,7 +53,8 @@ package
 		 */
 		private function init():void
 		{
-			imgVector = new Vector.<Image>();
+			_imgVector = new Vector.<Image>();
+			_imgBorderLine = 2;       //경계선을 2px로 설정
 			
 			_pathArray = new Array();
 			_loader    = new Loader();
@@ -62,8 +64,8 @@ package
 			
 			_packedSpace = 0;
 			_packingMaxSpace = 0;
-			_packingSpaceWidth = 1024;
-			_packingSpaceHeight = 1024;
+			_packingSpaceWidth = 2;
+			_packingSpaceHeight = 2;
 			
 			_xml       = new XML;
 
@@ -147,7 +149,7 @@ package
 			_loadedImg.img = e.target.content;
 			_loadedImg.name = _pathArray[_imgLoadIdx].url.substring(_pathArray[_imgLoadIdx].url.lastIndexOf("/") + 1);
 			_loadedImg.size = _loadedImg.img.width * _loadedImg.img.height;
-			imgVector.push(_loadedImg);
+			_imgVector.push(_loadedImg);
 			
 			//모든 이미지 파일을 읽고 push 했을 경우 패킹 작업 실시.
 			if(_imgLoadIdx == _pathArray.length-1)
@@ -180,7 +182,7 @@ package
 			_loadedImg.img = new Bitmap(bd,GlobalData.BITMAP_PIXEL_SNAPPING_AUTO,true);
 			_loadedImg.name = _pathArray[_imgLoadIdx].url.substring(_pathArray[_imgLoadIdx].url.lastIndexOf("/") + 1);
 			_loadedImg.size = _loadedImg.img.width * _loadedImg.img.height;
-			imgVector.push(_loadedImg);
+			_imgVector.push(_loadedImg);
 			
 			//모든 이미지 파일을 읽고 push 했을 경우 패킹 작업 실시.
 			if(_imgLoadIdx == _pathArray.length-1)
@@ -262,7 +264,7 @@ package
 		 */
 		private function imgSorting():void
 		{
-			imgVector.sort(imgSortingCompareFunc);
+			_imgVector.sort(imgSortingCompareFunc);
 		}
 		
 		/**
@@ -284,17 +286,15 @@ package
 			var rect:Rect;
 			var node:Node;
 			var packingTreeRoot:Node = new Node;
-			packingTreeRoot.rect = new Rect(GlobalData.IMAGE_BORDERLINE, GlobalData.IMAGE_BORDERLINE, _packingSpaceWidth, _packingSpaceHeight);
+			packingTreeRoot.rect = new Rect(_imgBorderLine, _imgBorderLine, _packingSpaceWidth, _packingSpaceHeight);
 			
-			//최대 저장 가능 공간 설정. 현재는 고정 크기라 이곳에 선언하지만, 가변 크기로 바꾸면 for문장 안에 추가시켜야 함.
-			_packingMaxSpace = ((_packingSpaceWidth - packingTreeRoot.rect.x) * (_packingSpaceHeight - packingTreeRoot.rect.y));
+			//최대 저장 가능 공간 설정.
+			_packingMaxSpace = _packingSpaceWidth * _packingSpaceHeight;
 			
-			for(var i:int = 0; i < imgVector.length; i++)
-			{
+			for(var i:int = 0; i < _imgVector.length; i++)
+			{	
 				//Sheet에 추가할 이미지의 width,height 세팅
-				rect = new Rect(0,0,
-					imgVector[i].img.width + GlobalData.IMAGE_BORDERLINE,
-					imgVector[i].img.height + GlobalData.IMAGE_BORDERLINE);   
+				rect = new Rect(0,0, _imgVector[i].img.width + _imgBorderLine, _imgVector[i].img.height + _imgBorderLine);   
 				
 				//트리 탐색과정
 				node = Insert_Rect(packingTreeRoot, rect);  
@@ -303,27 +303,36 @@ package
 				if(node)
 				{	
 					//이미지 위치 세팅 후 addChild
-					imgVector[i].img.x = node.rect.x;
-					imgVector[i].img.y = node.rect.y;
-					imgVector[i].setRect();
-					imgVector[i].isPacked = true;
+					_imgVector[i].img.x = node.rect.x;
+					_imgVector[i].img.y = node.rect.y;
+					_imgVector[i].setRect(_imgBorderLine);
+					_imgVector[i].isPacked = true;
 					
 					//패킹된 영역을 나타내기 위함.
-					_packedSpace += imgVector[i].size;
+					_packedSpace += _imgVector[i].size;
 					trace(_packedSpace / _packingMaxSpace * 100);
 				}
 					//이미지 저장할 공간이 없을 경우
-				else trace("packing 실패");
+				else
+				{
+					trace(_imgVector[i].name + " packing 실패");
+					
+					//이미지 확장
+					packingTreeRoot = packingSpaceExtend(packingTreeRoot);
+					
+					//처음부터 다시 탐색하기위해 -1로 설정. for문  완료되면 i++되서 0이됨.
+					i=-1;
+				}
 			}
 			
 			//현재는 단순 null 처리지만, 트리 순회하여 자식들 null 시켜줘야 함.
 			packingTreeRoot = null;
 		}
 		
-		public function Insert_Rect(root:Node, rc:Rect):Node
+		private function Insert_Rect(root:Node, rc:Rect):Node
 		{
 			if(root.left != null) return Insert_Rect(root.left, rc) || Insert_Rect(root.right, rc);
-			
+
 			if(root.filled) return null;
 			
 			if(rc.isTooBig(root.rect)) return null;
@@ -352,7 +361,26 @@ package
 				root.right.rect = new Rect(root.rect.x, root.rect.y + rc.height, root.rect.width, dh);
 			}        
 			
-			return Insert_Rect(root.left, rc); 
+			return Insert_Rect(root.left, rc);
+		}
+		
+		/**
+		 * root node를 입력받아서 2배확장한 후 반환함
+		 * @param root 이미지패킹의 시작점이 되는 root node
+		 * @return 확장한 후의 root node
+		 */
+		private function packingSpaceExtend(root:Node):Node
+		{
+			//가로세로 2배 증가
+			_packingSpaceWidth = _packingSpaceWidth + _packingSpaceWidth;
+			_packingSpaceHeight = _packingSpaceHeight + _packingSpaceHeight;
+			_packingMaxSpace = _packingSpaceWidth * _packingSpaceHeight;
+			
+			//새로운 탐색을 위해 노드를 새로 설정함
+			root = new Node;
+			root.rect = new Rect(_imgBorderLine, _imgBorderLine, _packingSpaceWidth, _packingSpaceHeight);
+			
+			return root;
 		}
 		
 		/**
@@ -392,9 +420,9 @@ package
 			var pngSource:BitmapData = new BitmapData (_packingSpaceWidth, _packingSpaceHeight,true,0x00000000);
 			
 			//이미지 한장에 그리는 중
-			for(var i:int; i<imgVector.length; i++)
+			for(var i:int; i<_imgVector.length; i++)
 			{
-				if(imgVector[i].isPacked) pngSource.draw(imgVector[i].img, new Matrix(1,0,0,1,imgVector[i].img.x,imgVector[i].img.y));
+				if(_imgVector[i].isPacked) pngSource.draw(_imgVector[i].img, new Matrix(1,0,0,1,_imgVector[i].img.x,_imgVector[i].img.y));
 			}
 			
 			//한장에 그린 이미지를 png로 인코딩하여 출력함.
@@ -423,9 +451,9 @@ package
 				<root>
 				</root>;
 			
-			for(var i:int=0; i<imgVector.length; i++)
+			for(var i:int=0; i<_imgVector.length; i++)
 			{
-				if(imgVector[i].isPacked)
+				if(_imgVector[i].isPacked)
 				{
 					var newItem:XML =
 						<img>
@@ -437,12 +465,12 @@ package
 						<rotated></rotated>
 						</img>;
 					
-					newItem.name    = imgVector[i].name;
-					newItem.x       = imgVector[i].img.x;
-					newItem.y       = imgVector[i].img.y;
-					newItem.width   = imgVector[i].img.width;
-					newItem.height  = imgVector[i].img.height;
-					newItem.rotated = imgVector[i].rotate;
+					newItem.name    = _imgVector[i].name;
+					newItem.x       = _imgVector[i].img.x;
+					newItem.y       = _imgVector[i].img.y;
+					newItem.width   = _imgVector[i].img.width;
+					newItem.height  = _imgVector[i].img.height;
+					newItem.rotated = _imgVector[i].rotate;
 					
 					_xml.appendChild(newItem);
 					newItem = null;
