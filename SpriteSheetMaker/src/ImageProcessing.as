@@ -413,27 +413,33 @@ package
 		private function packingSpacePredictionInit():void
 		{
 			var tempSize:int;
+			var tempSheetSpace:int;
 			
-			if     (_imgTotalSize <= GlobalData.SPRITE_SHEET_2_X_2)       tempSize = 2;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_4_X_4)       tempSize = 4;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_8_X_8)       tempSize = 8;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_16_X_16)     tempSize = 16;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_32_X_32)     tempSize = 32;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_64_X_64)     tempSize = 64;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_128_X_128)   tempSize = 128;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_256_X_256)   tempSize = 256;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_512_X_512)   tempSize = 512;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_1024_X_1024) tempSize = 1024;
-			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_2048_X_2048) tempSize = 2048;
+			if     (_imgTotalSize <= GlobalData.SPRITE_SHEET_2_X_2)      { tempSize = 2;    tempSheetSpace = GlobalData.SPRITE_SHEET_2_X_2;       }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_4_X_4)      { tempSize = 4;    tempSheetSpace = GlobalData.SPRITE_SHEET_4_X_4;       }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_8_X_8)      { tempSize = 8;    tempSheetSpace = GlobalData.SPRITE_SHEET_8_X_8;       }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_16_X_16)    { tempSize = 16;   tempSheetSpace = GlobalData.SPRITE_SHEET_16_X_16;     }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_32_X_32)    { tempSize = 32;   tempSheetSpace = GlobalData.SPRITE_SHEET_32_X_32;     }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_64_X_64)    { tempSize = 64;   tempSheetSpace = GlobalData.SPRITE_SHEET_64_X_64;     }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_128_X_128)  { tempSize = 128;  tempSheetSpace = GlobalData.SPRITE_SHEET_128_X_128;   }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_256_X_256)  { tempSize = 256;  tempSheetSpace = GlobalData.SPRITE_SHEET_256_X_256;   }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_512_X_512)  { tempSize = 512;  tempSheetSpace = GlobalData.SPRITE_SHEET_512_X_512;   }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_1024_X_1024){ tempSize = 1024; tempSheetSpace = GlobalData.SPRITE_SHEET_1024_X_1024; }
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_2048_X_2048){ tempSize = 2048; tempSheetSpace = GlobalData.SPRITE_SHEET_2048_X_2048; }
 			else 
 			{
 				tempSize = 4096;
+				tempSheetSpace = GlobalData.SPRITE_SHEET_4096_X_4096;
 				trace("Sprite Sheet Size is too Big : " + tempSize + "* " + tempSize);
 			}
 			
-			//예측을 기반으로 sheet의 가로세로 길이 설정
+			//예측을 기반으로 sheet의 세로 길이 설정
+			//정사각형이 아닌 직사각형 형태가 더 효율적이라 판단되면 세로 길이를 원래 길이의 절반으로 줄임
+			if((_imgTotalSize/2) < (tempSheetSpace/2)) _packingSpaceHeight = tempSize/2;
+			else _packingSpaceHeight = tempSize;
+			
+			//예측을 기반으로 sheet의 가로길이 설정
 			_packingSpaceWidth = tempSize;
-			_packingSpaceHeight = tempSize;
 			_packingMaxSpace = _packingSpaceWidth * _packingSpaceHeight;
 		}
 		
