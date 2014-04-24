@@ -1,6 +1,5 @@
 package
 {
-	import flash.display.Sprite;
 	import flash.display.Stage;
 	
 	/** 
@@ -38,13 +37,6 @@ package
 		public static const SPRITE_SHEET_4096_X_4096:int = 16777216;
 		
 		public static var globalStage:Stage;
-		
-		//mouse click 이벤트를 처리하기 위한 전역변수.
-		//isFirstTouch 는 처음으로 클릭한것인지 판별하기 위함
-		public static var isFirstTouch:Boolean = true;
-		
-		//mouse click의 결과로 이미지의 테두리를 그릴때 이전에 그린것을 삭제하기 위해 존재하는 Sprite
-		public static var beforeUseSprite:Sprite = new Sprite;
 		
 		/**
 		 * @param stage : main클래스에서 받아온 stage
