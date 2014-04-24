@@ -36,7 +36,7 @@ package
 		public static const SPRITE_SHEET_512_X_512:int   = 262144;
 		public static const SPRITE_SHEET_1024_X_1024:int = 1048576;
 		public static const SPRITE_SHEET_2048_X_2048:int = 4194304;
-		
+		public static const SPRITE_SHEET_4096_X_4096:int = 16777216;
 		
 		public static var globalStage:Stage;
 		
