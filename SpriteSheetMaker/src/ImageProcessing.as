@@ -401,6 +401,9 @@ package
 			root = new Node;
 			root.rect = new Rect(_imgBorderLine, _imgBorderLine, _packingSpaceWidth, _packingSpaceHeight);
 			
+			//패킹된 공간도 초기화
+			_packedSpace = 0;
+			
 			return root;
 		}
 		
