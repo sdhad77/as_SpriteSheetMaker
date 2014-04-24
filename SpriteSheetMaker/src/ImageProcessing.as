@@ -311,10 +311,9 @@ package
 				//이미지가 저장될 공간이 있을 경우
 				if(node)
 				{	
-					//이미지 위치 세팅 후 addChild
+					//이미지 위치 세팅
 					_imgVector[i].img.x = node.rect.x;
 					_imgVector[i].img.y = node.rect.y;
-					_imgVector[i].setRect(_imgBorderLine);
 					_imgVector[i].isPacked = true;
 					
 					//패킹된 영역을 나타내기 위함.
