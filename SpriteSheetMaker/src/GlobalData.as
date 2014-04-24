@@ -25,8 +25,6 @@ package
 		public static const SPRITE_SHEET_MAX_WIDTH:int = 1024;
 		public static const SPRITE_SHEET_MAX_HEIGHT:int = 1024;
 		
-		public static const IMAGE_BORDERLINE:int = 2;
-		
 		public static var globalStage:Stage;
 		
 		//mouse click 이벤트를 처리하기 위한 전역변수.
