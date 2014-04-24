@@ -25,6 +25,19 @@ package
 		public static const SPRITE_SHEET_MAX_WIDTH:int = 1024;
 		public static const SPRITE_SHEET_MAX_HEIGHT:int = 1024;
 		
+		public static const SPRITE_SHEET_2_X_2:int       = 4;
+		public static const SPRITE_SHEET_4_X_4:int       = 16;
+		public static const SPRITE_SHEET_8_X_8:int       = 64;
+		public static const SPRITE_SHEET_16_X_16:int     = 256;
+		public static const SPRITE_SHEET_32_X_32:int     = 1024;
+		public static const SPRITE_SHEET_64_X_64:int     = 4096;
+		public static const SPRITE_SHEET_128_X_128:int   = 16384;
+		public static const SPRITE_SHEET_256_X_256:int   = 65536;
+		public static const SPRITE_SHEET_512_X_512:int   = 262144;
+		public static const SPRITE_SHEET_1024_X_1024:int = 1048576;
+		public static const SPRITE_SHEET_2048_X_2048:int = 4194304;
+		
+		
 		public static var globalStage:Stage;
 		
 		//mouse click 이벤트를 처리하기 위한 전역변수.
