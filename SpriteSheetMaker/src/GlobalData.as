@@ -17,11 +17,11 @@ package
 		public static const PATH_OUT_FILE_XML:String = "out/atlas.xml";
 		public static const BITMAP_PIXEL_SNAPPING_AUTO:String = "auto";
 		
-		public static const SPRITE_SHEET_MAX_WIDTH:int = 1024;
-		public static const SPRITE_SHEET_MAX_HEIGHT:int = 1024;
+		public static const STAGE_PNG_SPRITE_NAME:String = "_pngSprite";
+		public static const BORDERLINE_SHAPE_NAME:String = "borderShape";
 		
-		public static const DEVICE_WIDTH:int = 1080;
-		public static const DEVICE_HEIGHT:int = 1920;
+		public static const DEVICE_WIDTH:int = 768;
+		public static const DEVICE_HEIGHT:int = 1004;
 		
 		public static const SPRITE_SHEET_2_X_2:int       = 4;
 		public static const SPRITE_SHEET_4_X_4:int       = 16;
