@@ -74,6 +74,7 @@ package
 			
 			_xml       = new XML;
 			_pngSprite = new Sprite;
+			_pngSprite.name = GlobalData.STAGE_PNG_SPRITE_NAME;
 			_pngSprite.scrollRect = new Rectangle(0, 0, GlobalData.DEVICE_WIDTH, GlobalData.DEVICE_HEIGHT);
 
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaderCompleteHandler);
@@ -478,7 +479,7 @@ package
 			
 			//터치 이벤트 시작
 			var touchProcessing:TouchProcessing = new TouchProcessing;
-			touchProcessing.init();
+			touchProcessing.init(_imgVector, _imgBorderLine);
 		}
 		
 		/**
