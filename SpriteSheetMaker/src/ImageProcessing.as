@@ -17,6 +17,7 @@ package
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
+	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
 	
 	/**
@@ -497,8 +498,13 @@ package
 			
 			//한장에 그린 이미지를 png로 인코딩하여 출력함.
 			var ba:ByteArray = PNGEncoder.encode(pngSource);
-			var file:File = File.desktopDirectory.resolvePath(GlobalData.PATH_OUT_FILE_PNG);
+			var file:File = new File(File.applicationDirectory.resolvePath(GlobalData.PATH_OUT_FILE_PNG).nativePath);
 			var fileStream:FileStream = new FileStream();
+			var osName:String = Capabilities.os;
+			
+			if("Win" == osName.slice(0,3)) file = new File(File.applicationDirectory.resolvePath(GlobalData.PATH_OUT_FILE_PNG).nativePath);
+			else file = File.applicationStorageDirectory.resolvePath(GlobalData.PATH_OUT_FILE_PNG);
+			
 			fileStream.open(file, FileMode.WRITE);
 			fileStream.writeBytes(ba);
 			fileStream.close();
@@ -558,6 +564,11 @@ package
 			ba.writeUTFBytes(_xml);
 			var file:File = File.desktopDirectory.resolvePath(GlobalData.PATH_OUT_FILE_XML);
 			var fileStream:FileStream = new FileStream();
+			var osName:String = Capabilities.os;
+			
+			if("Win" == osName.slice(0,3)) file = new File(File.applicationDirectory.resolvePath(GlobalData.PATH_OUT_FILE_XML).nativePath);
+			else file = File.applicationStorageDirectory.resolvePath(GlobalData.PATH_OUT_FILE_XML);
+			
 			fileStream.open(file, FileMode.WRITE);
 			fileStream.writeUTFBytes(ba.toString());
 			fileStream.close();
