@@ -6,12 +6,14 @@ package
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
@@ -43,6 +45,7 @@ package
 		
 		//이미지 출력 관련
 		private var _xml            :XML;
+		private var _pngSprite      :Sprite;    //한장으로 합친 PNG데이터를 자식으로 갖게 되는 sprite
 		
 		public function ImageProcessing()
 		{
@@ -70,6 +73,8 @@ package
 			_packingSpaceHeight = 2;
 			
 			_xml       = new XML;
+			_pngSprite = new Sprite;
+			_pngSprite.scrollRect = new Rectangle(0, 0, GlobalData.DEVICE_WIDTH, GlobalData.DEVICE_HEIGHT);
 
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaderCompleteHandler);
 			_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, loaderErrorHandler);	
@@ -470,6 +475,10 @@ package
 			
 			//사용이 끝난 메모리 해제
 			clearImagePrint();
+			
+			//터치 이벤트 시작
+			var touchProcessing:TouchProcessing = new TouchProcessing;
+			touchProcessing.init();
 		}
 		
 		/**
@@ -494,7 +503,8 @@ package
 			fileStream.close();
 			
 			//한장에 그린 이미지를 화면에도 보여줌.
-			GlobalData.globalStage.addChild(new Bitmap(pngSource));
+			_pngSprite.addChild(new Bitmap(pngSource));
+			GlobalData.globalStage.addChild(_pngSprite);
 			
 			fileStream = null;
 			file = null;
