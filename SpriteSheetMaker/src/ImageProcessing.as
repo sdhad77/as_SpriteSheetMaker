@@ -25,6 +25,7 @@ package
 	{
 		private var _imgVector:Vector.<Image>;   //읽어온 이미지들을 저장하기 위한 벡터
 		private var _imgBorderLine   :int;       //이미지의 경계선 두께
+		private var _imgTotalSize    :int;       //패킹할 이미지들의 전체 사이즈
 		
 		//이미지 로딩 관련
 		private var _loadedImg      :Image;     //파일에서 읽어온 이미지 저장
@@ -55,6 +56,7 @@ package
 		{
 			_imgVector = new Vector.<Image>();
 			_imgBorderLine = 2;       //경계선을 2px로 설정
+			_imgTotalSize  = 0;
 			
 			_pathArray = new Array();
 			_loader    = new Loader();
@@ -151,6 +153,9 @@ package
 			_loadedImg.size = _loadedImg.img.width * _loadedImg.img.height;
 			_imgVector.push(_loadedImg);
 			
+			//sprite sheet 초기 사이즈 예측을 위해  이미지의 크기들을 수집함.
+			_imgTotalSize +=_loadedImg.size;
+			
 			//모든 이미지 파일을 읽고 push 했을 경우 패킹 작업 실시.
 			if(_imgLoadIdx == _pathArray.length-1)
 			{
@@ -183,6 +188,9 @@ package
 			_loadedImg.name = _pathArray[_imgLoadIdx].url.substring(_pathArray[_imgLoadIdx].url.lastIndexOf("/") + 1);
 			_loadedImg.size = _loadedImg.img.width * _loadedImg.img.height;
 			_imgVector.push(_loadedImg);
+			
+			//sprite sheet 초기 사이즈 예측을 위해  이미지의 크기들을 수집함.
+			_imgTotalSize +=_loadedImg.size;
 			
 			//모든 이미지 파일을 읽고 push 했을 경우 패킹 작업 실시.
 			if(_imgLoadIdx == _pathArray.length-1)
@@ -286,10 +294,11 @@ package
 			var rect:Rect;
 			var node:Node;
 			var packingTreeRoot:Node = new Node;
-			packingTreeRoot.rect = new Rect(_imgBorderLine, _imgBorderLine, _packingSpaceWidth, _packingSpaceHeight);
 			
-			//최대 저장 가능 공간 설정.
-			_packingMaxSpace = _packingSpaceWidth * _packingSpaceHeight;
+			//sprite sheet의 최종사이즈를 패킹할 이미지 전체의 크기의 합을 기반으로 예측하여 설정하는 함수.
+			packingSpacePredictionInit();
+
+			packingTreeRoot.rect = new Rect(_imgBorderLine, _imgBorderLine, _packingSpaceWidth, _packingSpaceHeight);
 			
 			for(var i:int = 0; i < _imgVector.length; i++)
 			{	
@@ -393,6 +402,36 @@ package
 			root.rect = new Rect(_imgBorderLine, _imgBorderLine, _packingSpaceWidth, _packingSpaceHeight);
 			
 			return root;
+		}
+		
+		/**
+		 * sprite sheet의 최종사이즈를 패킹할 이미지 전체의 크기의 합을 기반으로 예측하여 설정하는 함수.
+		 */
+		private function packingSpacePredictionInit():void
+		{
+			var tempSize:int;
+			
+			if     (_imgTotalSize <= GlobalData.SPRITE_SHEET_2_X_2)       tempSize = 2;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_4_X_4)       tempSize = 4;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_8_X_8)       tempSize = 8;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_16_X_16)     tempSize = 16;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_32_X_32)     tempSize = 32;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_64_X_64)     tempSize = 64;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_128_X_128)   tempSize = 128;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_256_X_256)   tempSize = 256;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_512_X_512)   tempSize = 512;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_1024_X_1024) tempSize = 1024;
+			else if(_imgTotalSize <= GlobalData.SPRITE_SHEET_2048_X_2048) tempSize = 2048;
+			else 
+			{
+				tempSize = 4096;
+				trace("Sprite Sheet Size is too Big : " + tempSize + "* " + tempSize);
+			}
+			
+			//예측을 기반으로 sheet의 가로세로 길이 설정
+			_packingSpaceWidth = tempSize;
+			_packingSpaceHeight = tempSize;
+			_packingMaxSpace = _packingSpaceWidth * _packingSpaceHeight;
 		}
 		
 		/**
