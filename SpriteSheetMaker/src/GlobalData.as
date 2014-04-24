@@ -21,6 +21,9 @@ package
 		public static const SPRITE_SHEET_MAX_WIDTH:int = 1024;
 		public static const SPRITE_SHEET_MAX_HEIGHT:int = 1024;
 		
+		public static const DEVICE_WIDTH:int = 1080;
+		public static const DEVICE_HEIGHT:int = 1920;
+		
 		public static const SPRITE_SHEET_2_X_2:int       = 4;
 		public static const SPRITE_SHEET_4_X_4:int       = 16;
 		public static const SPRITE_SHEET_8_X_8:int       = 64;
