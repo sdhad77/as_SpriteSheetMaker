@@ -329,20 +329,31 @@ package
 			packingTreeRoot = null;
 		}
 		
+		/**
+		 * 현재 노드(root)에 원하는 크기의 Rect(rc)가 들어갈 수 있는지 검사하기 위한 함수
+		 * @param root 현재 비교중인 노드
+		 * @param rc root에 원하는 크기의 공간이 있는지 비교하기 위한 Rect
+		 * @return root의 자식노드 중 작은영역을 가진 left를 호출
+		 */
 		private function Insert_Rect(root:Node, rc:Rect):Node
 		{
+			//자식이 존재하면 자식노드로 이동
 			if(root.left != null) return Insert_Rect(root.left, rc) || Insert_Rect(root.right, rc);
 
+			//이미 꽉차있으면 null 리턴
 			if(root.filled) return null;
 			
+			//rc의 크기가 너무 클 경우 null 리턴
 			if(rc.isTooBig(root.rect)) return null;
 			
+			//사이즈가 정확히 일치할 경우.
 			if(rc.isSameSize(root.rect))
 			{
 				root.filled = true;
 				return root;
 			}
 			
+			//새로운 자식 생성
 			root.left = new Node();
 			root.right = new Node();
 			
@@ -361,6 +372,7 @@ package
 				root.right.rect = new Rect(root.rect.x, root.rect.y + rc.height, root.rect.width, dh);
 			}        
 			
+			//영역이 더 작은 left자식으로 이동
 			return Insert_Rect(root.left, rc);
 		}
 		
