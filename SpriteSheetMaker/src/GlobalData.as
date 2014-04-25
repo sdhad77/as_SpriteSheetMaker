@@ -3,9 +3,9 @@ package
 	import flash.display.Stage;
 	
 	/** 
+	 * 전역변수들을 관리하기 위한 클래스</br>
+	 * stage를 모든 클래스에서 사용하기 위해 이곳에서 전역선언함
 	 * @author 신동환
-	 * @brief 전역변수들을 관리하기 위한 클래스
-	 *        stage를 모든 클래스에서 사용하기 위해 이곳에서 전역선언함
 	 */
 	public class GlobalData
 	{
@@ -39,8 +39,8 @@ package
 		public static var globalStage:Stage;
 		
 		/**
+		 * stage를 전역변수에 넣고, setting() 함수를 통해 환경설정을 함.
 		 * @param stage : main클래스에서 받아온 stage
-		 * @brief stage를 전역변수에 넣고, setting() 함수를 통해 환경설정을 함.
 		 */
 		public function GlobalData(stage)
 		{	//stage를 전역으로.
