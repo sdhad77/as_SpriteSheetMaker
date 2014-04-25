@@ -10,9 +10,9 @@ package
 		}
 		
 		/**
+		 * width와 height를 이용하여 두 사각형의 크기를 비교하고 같을 경우 true 반환
 		 * @param rc 비교할 Rect
 		 * @return 두 사각형의 크기가 같으면 true
-		 * @brief width와 height를 이용하여 두 사각형의 크기를 비교하고 같을 경우 true 반환
 		 */
 		public function isSameSize(rc:Rect):Boolean
 		{
@@ -21,9 +21,9 @@ package
 		}
 		
 		/**
+		 * width와 height를 이용하여 두 사각형의 크기를 비교하고, this의 사각형이 더 클 경우 true 반환
 		 * @param rc 비교할 Rect
 		 * @return 호출된(this)의 크기가 더 크면 true
-		 * @brief width와 height를 이용하여 두 사각형의 크기를 비교하고, this의 사각형이 더 클 경우 true 반환
 		 */
 		public function isTooBig(rc:Rect):Boolean
 		{
