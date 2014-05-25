@@ -525,29 +525,23 @@ package
 		private function xmlInputData():void
 		{
 			_xml = 
-				<root>
-				</root>;
+				<atlas>
+				</atlas>;
 			
 			for(var i:int=0; i<_imgVector.length; i++)
 			{
 				if(_imgVector[i].isPacked)
 				{
 					var newItem:XML =
-						<img>
-						<name></name>
-						<x></x>
-						<y></y>
-						<width></width>
-						<height></height>
-						<rotated></rotated>
-						</img>;
-					
-					newItem.name    = _imgVector[i].name;
-					newItem.x       = _imgVector[i].img.x;
-					newItem.y       = _imgVector[i].img.y;
-					newItem.width   = _imgVector[i].img.width;
-					newItem.height  = _imgVector[i].img.height;
-					newItem.rotated = _imgVector[i].rotate;
+						XML("<atlasItem name =" + "\"" + _imgVector[i].name       + "\" " + 
+                                          "x =" + "\"" + _imgVector[i].img.x      + "\" " +
+                                          "y =" + "\"" + _imgVector[i].img.y      + "\" " + 
+                                      "width =" + "\"" + _imgVector[i].img.width  + "\" " + 
+                                     "height =" + "\"" + _imgVector[i].img.height + "\" " + 
+                                     "frameX =" + "\"" + 0                        + "\" " +
+                                     "frameY =" + "\"" + 0                        + "\" " + 
+                                 "frameWidth =" + "\"" + _imgVector[i].img.width  + "\" " + 
+                                "frameHeight =" + "\"" + _imgVector[i].img.height + "\" " + " />");
 					
 					_xml.appendChild(newItem);
 					newItem = null;
